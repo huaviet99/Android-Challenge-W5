@@ -38,6 +38,8 @@
         android:label="BoardingThreeFragment"
         tools:layout="@layout/fragment_onboarding_three">
         <action
+            app:popUpTo="@+id/nav_graph"
+            app:popUpToInclusive="true"
             android:id="@+id/action_boardingThreeFragment_to_welcomeFragment"
             app:destination="@id/welcomeFragment" />
     </fragment>
@@ -47,9 +49,13 @@
         android:label="WelcomeFragment"
         tools:layout="@layout/fragment_welcome">
         <action
+            app:popUpTo="@+id/nav_graph"
+            app:popUpToInclusive="true"
             android:id="@+id/action_welcomeFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
         <action
+            app:popUpTo="@+id/nav_graph"
+            app:popUpToInclusive="true"
             android:id="@+id/action_welcomeFragment_to_signInFragment"
             app:destination="@id/signInFragment" />
     </fragment>
@@ -59,6 +65,8 @@
         android:label="SignUpFragment"
         tools:layout="@layout/fragment_sign_up" >
         <action
+            app:popUpTo="@+id/nav_graph"
+            app:popUpToInclusive="true"
             android:id="@+id/action_signUpFragment_to_signInFragment"
             app:destination="@id/signInFragment" />
     </fragment>
@@ -71,6 +79,8 @@
             android:id="@+id/action_signInFragment_to_restaurantListFragment"
             app:destination="@id/restaurantListFragment" />
         <action
+            app:popUpTo="@+id/nav_graph"
+            app:popUpToInclusive="true"
             android:id="@+id/action_signInFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
     </fragment>
