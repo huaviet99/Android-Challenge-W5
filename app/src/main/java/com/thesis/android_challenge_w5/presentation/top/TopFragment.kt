@@ -39,7 +39,6 @@ class TopFragment : Fragment() {
         viewModel.fetchRestaurantList().observe(viewLifecycleOwner, Observer {
             activity?.runOnUiThread {
                 topAdapter.submitList(it)
-                topAdapter.notifyDataSetChanged()
             }
         })
     }
