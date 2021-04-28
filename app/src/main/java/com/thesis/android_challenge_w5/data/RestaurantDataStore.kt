@@ -36,12 +36,11 @@ object RestaurantDataStore {
     fun addRestaurantListByEmail(email:String,restaurant: Restaurant){
         val restaurantList = favoriteRestaurantMap[email] ?: mutableListOf()
 
-
         if( restaurantList.filter { it.name == restaurant.name }.size !=1){
             restaurant.isFavorite = true
-            restaurantList.add(restaurant)
+            restaurantList.add(restaurant.copy())
             favoriteRestaurantMap[email] = restaurantList
-            addFavoriteRestaurantCallback.onSucceed()
+            addFavoriteRestaurantCallback.onSucceed(getAllRestaurantListWithFavoriteChecked(email).map { it.copy() })
             return
         }
     }
@@ -52,7 +51,7 @@ object RestaurantDataStore {
         if( restaurantList!!.filter { it.name == restaurant.name }.size ==1){
             restaurantList.removeAll { it.name == restaurant.name }
             favoriteRestaurantMap[email] = restaurantList
-            removeFavoriteRestaurantCallback.onSucceed()
+            removeFavoriteRestaurantCallback.onSucceed(getAllRestaurantListWithFavoriteChecked(email).map { it.copy() })
             return
         }
 
@@ -66,18 +65,12 @@ object RestaurantDataStore {
     fun getAllRestaurantListWithFavoriteChecked(email: String):List<Restaurant>{
         val cloneList = defaultRestaurantList.map { it.copy() }
         val favoriteList = getFavoriteRestaurantList(email)
-        for(clone in cloneList){
-            Log.d("RestaurantDataStorec",clone.toString())
-        }
         for(restaurant in cloneList){
             for(favoriteRestaurant in favoriteList){
                 if(restaurant.name == favoriteRestaurant.name){
                     restaurant.isFavorite = true
                 }
             }
-        }
-        for(clone in cloneList){
-            Log.d("RestaurantDataStore",clone.toString())
         }
         return cloneList
     }
@@ -92,11 +85,11 @@ object RestaurantDataStore {
 
 
     interface AddFavoriteRestaurantCallback {
-        fun onSucceed()
+        fun onSucceed(restaurantList:List<Restaurant>)
     }
 
     interface RemoveFavoriteRestaurantCallback {
-        fun onSucceed()
+        fun onSucceed(restaurantList:List<Restaurant>)
     }
 
 }

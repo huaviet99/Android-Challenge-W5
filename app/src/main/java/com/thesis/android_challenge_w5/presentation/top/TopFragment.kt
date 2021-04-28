@@ -15,7 +15,7 @@ import com.thesis.android_challenge_w5.data.RestaurantDataStore
 import com.thesis.android_challenge_w5.databinding.FragmentTopBinding
 import com.thesis.android_challenge_w5.model.Restaurant
 
-class TopFragment : Fragment(){
+class TopFragment : Fragment() {
     private lateinit var topAdapter: TopAdapter
     private lateinit var viewModel: TopViewModel
     private lateinit var binding: FragmentTopBinding
@@ -38,41 +38,26 @@ class TopFragment : Fragment(){
         setupRecyclerView()
         viewModel.fetchRestaurantList().observe(viewLifecycleOwner, Observer {
             activity?.runOnUiThread {
-                if(it.isNotEmpty()){
-                    topAdapter.submitList(it.toMutableList())
-                }
-            }
-        })
-
-        viewModel.isAddFavoriteSucceed.observe(viewLifecycleOwner, Observer {
-            activity?.runOnUiThread {
-                viewModel.fetchRestaurantList()
-
-            }
-        })
-
-        viewModel.isRemoveFavoriteSucceed.observe(viewLifecycleOwner, Observer {
-            activity?.runOnUiThread {
-                viewModel.fetchRestaurantList()
-
+                topAdapter.submitList(it)
+                topAdapter.notifyDataSetChanged()
             }
         })
     }
 
 
-    fun refresh(){
+    fun refresh() {
 
     }
 
-    private fun setupRecyclerView(){
+    private fun setupRecyclerView() {
         topAdapter = TopAdapter()
         topAdapter.listener = object : TopAdapter.RestaurantAdapterListener {
             override fun onItemClicked(restaurant: Restaurant) {
-                Log.d("TopFragment","onItemClicked= $restaurant")
-                if(restaurant.isFavorite){
+                Log.d("TopFragment", "onItemClicked= $restaurant")
+                if (restaurant.isFavorite) {
                     viewModel.removeFavoriteRestaurant(restaurant)
                 } else {
-                     viewModel.addFavoriteRestaurant(restaurant)
+                    viewModel.addFavoriteRestaurant(restaurant)
                 }
             }
         }
