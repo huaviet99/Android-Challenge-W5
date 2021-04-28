@@ -36,21 +36,16 @@ class TopFragment : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
-
+        viewModel.fetchRestaurantList().observe(viewLifecycleOwner, Observer {
+            if(it.isNotEmpty()){
+                topAdapter.submitList(it)
+            }
+        })
     }
 
 
     fun refresh(){
-        viewModel.fetchRestaurantList().observe(viewLifecycleOwner, Observer {
-            if(it.isNotEmpty()){
-                for(data in it){
-                    Log.d("Test",data.toString())
-                }
-                topAdapter.submitList(it)
-            } else {
-                showToastMessage("Can't find any restaurant")
-            }
-        })
+        viewModel.fetchRestaurantList()
     }
     private fun setupRecyclerView(){
         topAdapter = TopAdapter()

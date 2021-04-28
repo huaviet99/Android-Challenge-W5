@@ -70,15 +70,17 @@ object RestaurantDataStore {
     fun test(email: String):List<Restaurant>{
         val copyList = getRestaurantList().toMutableList()
         val favoriteList = getFavoriteRestaurantList(email)
-        for(tt in favoriteList){
-            Log.d("Test2",tt.toString())
-        }
+
         for(restaurant in copyList){
             for(favoriteRestaurant in favoriteList){
                 if(restaurant.name == favoriteRestaurant.name){
                     restaurant.isFavorite = true
                 }
             }
+        }
+
+        for(tt in copyList){
+            Log.d("Test3",tt.toString())
         }
         return copyList
     }

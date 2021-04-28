@@ -11,7 +11,7 @@ class TopViewModel : ViewModel(){
     private val restaurantList = MutableLiveData<List<Restaurant>>()
 
     fun fetchRestaurantList(): LiveData<List<Restaurant>>{
-        restaurantList.value = RestaurantDataStore.test("huaviet999@gmail.com")
+        restaurantList.postValue( RestaurantDataStore.test("huaviet999@gmail.com"))
         return restaurantList
     }
 }
