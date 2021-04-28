@@ -37,24 +37,42 @@ class TopFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         viewModel.fetchRestaurantList().observe(viewLifecycleOwner, Observer {
-            if(it.isNotEmpty()){
-                topAdapter.submitList(it)
+            activity?.runOnUiThread {
+                if(it.isNotEmpty()){
+                    topAdapter.submitList(it.toMutableList())
+                }
+            }
+        })
+
+        viewModel.isAddFavoriteSucceed.observe(viewLifecycleOwner, Observer {
+            activity?.runOnUiThread {
+                viewModel.fetchRestaurantList()
+
+            }
+        })
+
+        viewModel.isRemoveFavoriteSucceed.observe(viewLifecycleOwner, Observer {
+            activity?.runOnUiThread {
+                viewModel.fetchRestaurantList()
+
             }
         })
     }
 
 
     fun refresh(){
-        viewModel.fetchRestaurantList()
+
     }
+
     private fun setupRecyclerView(){
         topAdapter = TopAdapter()
         topAdapter.listener = object : TopAdapter.RestaurantAdapterListener {
             override fun onItemClicked(restaurant: Restaurant) {
+                Log.d("TopFragment","onItemClicked= $restaurant")
                 if(restaurant.isFavorite){
-                    RestaurantDataStore.removeRestaurantListByEmail("huaviet999@gmail.com",restaurant)
+                    viewModel.removeFavoriteRestaurant(restaurant)
                 } else {
-                    RestaurantDataStore.addRestaurantListByEmail("huaviet999@gmail.com",restaurant)
+                     viewModel.addFavoriteRestaurant(restaurant)
                 }
             }
         }

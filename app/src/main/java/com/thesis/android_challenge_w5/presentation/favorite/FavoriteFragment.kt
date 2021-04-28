@@ -34,8 +34,9 @@ class FavoriteFragment : Fragment() {
 
     fun refresh() {
         viewModel.fetchRestaurantList().observe(viewLifecycleOwner, Observer {
-            favoriteAdapter.submitList(it.toMutableList())
-
+            activity?.runOnUiThread {
+                favoriteAdapter.submitList(it.toMutableList())
+            }
         })
     }
 
