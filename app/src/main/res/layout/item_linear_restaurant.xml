@@ -12,6 +12,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <ImageView
+                android:id="@+id/img_favorite_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_favorite_uncheck"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
             <ProgressBar
                 android:theme="@style/ProgressBarTheme"
                 android:visibility="visible"
@@ -23,7 +30,6 @@
                 app:layout_constraintStart_toStartOf="@+id/img_restaurant"
                 app:layout_constraintTop_toTopOf="@+id/img_restaurant" />
             <ImageView
-
                 android:id="@+id/img_restaurant"
                 android:layout_width="92dp"
                 android:layout_height="92dp"

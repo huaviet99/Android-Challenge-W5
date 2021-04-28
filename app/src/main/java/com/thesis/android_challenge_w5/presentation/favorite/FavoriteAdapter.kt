@@ -1,4 +1,4 @@
-package com.thesis.android_challenge_w5.presentation.top
+package com.thesis.android_challenge_w5.presentation.favorite
 
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
@@ -18,7 +18,7 @@ import com.bumptech.glide.request.target.Target
 import com.thesis.android_challenge_w5.R
 import com.thesis.android_challenge_w5.model.Restaurant
 
-class TopAdapter : ListAdapter<Restaurant, TopAdapter.ViewHolder>(RestaurantDiffUtilCallback()) {
+class FavoriteAdapter : ListAdapter<Restaurant, FavoriteAdapter.ViewHolder>(RestaurantDiffUtilCallback()) {
     companion object {
         const val LINEAR_ITEM = 0
         const val GRID_ITEM = 1
@@ -63,6 +63,7 @@ class TopAdapter : ListAdapter<Restaurant, TopAdapter.ViewHolder>(RestaurantDiff
          private val imgFavoriteCheck: ImageView = itemView.findViewById(R.id.img_favorite_check)
          private val progressBar: ProgressBar = itemView.findViewById(R.id.progress_bar)
         fun bind(restaurant: Restaurant, listener: RestaurantAdapterListener?) {
+            imgFavoriteCheck.visibility = View.GONE
             tvRestaurantName.text = restaurant.name
             tvRestaurantAddress.text = restaurant.address
             Glide.with(itemView.context)
@@ -80,12 +81,7 @@ class TopAdapter : ListAdapter<Restaurant, TopAdapter.ViewHolder>(RestaurantDiff
                 })
                 .into(imgRestaurant)
 
-            if(restaurant.isFavorite){
-                imgFavoriteCheck.setImageResource(R.drawable.ic_favorite_check)
-            } else {
-                imgFavoriteCheck.setImageResource(R.drawable.ic_favorite_uncheck)
 
-            }
             imgFavoriteCheck.setOnClickListener {
                 listener?.onItemClicked(restaurant)
             }

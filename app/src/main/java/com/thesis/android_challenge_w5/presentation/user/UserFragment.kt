@@ -1,12 +1,15 @@
 package com.thesis.android_challenge_w5.presentation.user
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.thesis.android_challenge_w5.R
+import com.thesis.android_challenge_w5.presentation.favorite.FavoriteFragment
+import com.thesis.android_challenge_w5.presentation.top.TopFragment
 import kotlinx.android.synthetic.main.fragment_user.*
 
 class UserFragment : Fragment() {
@@ -55,10 +58,15 @@ class UserFragment : Fragment() {
                     UserViewPagerAdapter.TOP_PAGE ->{
                         bottom_nav_user.menu.findItem(R.id.item_top).isChecked = true
                         toolbar.title = "Top Restaurant"
+                        (mainViewPagerAdapter.getItem(position) as TopFragment).refresh()
+
                     }
                     UserViewPagerAdapter.FAVORITE_PAGE ->  {
                         bottom_nav_user.menu.findItem(R.id.item_favorite).isChecked = true
                         toolbar.title = "Favorite Restaurant"
+                        (mainViewPagerAdapter.getItem(position) as FavoriteFragment).refresh()
+
+
                     }
 
                 }
