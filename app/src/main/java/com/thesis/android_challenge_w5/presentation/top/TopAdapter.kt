@@ -1,4 +1,4 @@
-package com.thesis.android_challenge_w5.presentation.restaurant_list
+package com.thesis.android_challenge_w5.presentation.top
 
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
@@ -18,7 +18,7 @@ import com.bumptech.glide.request.target.Target
 import com.thesis.android_challenge_w5.R
 import com.thesis.android_challenge_w5.model.Restaurant
 
-class RestaurantAdapter : ListAdapter<Restaurant, RestaurantAdapter.ViewHolder>(RestaurantDiffUtilCallback()) {
+class TopAdapter : ListAdapter<Restaurant, TopAdapter.ViewHolder>(RestaurantDiffUtilCallback()) {
     companion object {
         const val LINEAR_ITEM = 0
         const val GRID_ITEM = 1

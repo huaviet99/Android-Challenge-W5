@@ -41,7 +41,7 @@ class SignInFragment : Fragment() {
         viewModel.isSignInSucceed.observe(viewLifecycleOwner, Observer { user ->
             user?.let {
                 showToastMessage("Sign in Successful")
-                findNavController().navigate(R.id.action_signInFragment_to_restaurantListFragment)
+                findNavController().navigate(R.id.action_signInFragment_to_userFragment)
             }
 
         })

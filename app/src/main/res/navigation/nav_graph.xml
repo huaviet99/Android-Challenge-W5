@@ -76,17 +76,18 @@
         android:label="SignInFragment"
         tools:layout="@layout/fragment_sign_in">
         <action
-            android:id="@+id/action_signInFragment_to_restaurantListFragment"
-            app:destination="@id/restaurantListFragment" />
-        <action
             app:popUpTo="@+id/nav_graph"
             app:popUpToInclusive="true"
             android:id="@+id/action_signInFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_signInFragment_to_userFragment"
+            app:destination="@id/userFragment" />
     </fragment>
     <fragment
-        android:id="@+id/restaurantListFragment"
-        android:name="com.thesis.android_challenge_w5.presentation.restaurant_list.RestaurantListFragment"
-        android:label="RestaurantListFragment"
-        tools:layout="@layout/fragment_restaurant_list" />
+        tools:layout="@layout/fragment_user"
+        android:id="@+id/userFragment"
+        android:name="com.thesis.android_challenge_w5.presentation.user.UserFragment"
+        android:label="UserFragment" />
+
 </navigation>
