@@ -3,6 +3,7 @@ package com.thesis.android_challenge_w5.presentation.user
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.viewpager.widget.PagerAdapter
 import com.thesis.android_challenge_w5.presentation.favorite.FavoriteListFragment
 import com.thesis.android_challenge_w5.presentation.top.TopListFragment
 
@@ -18,6 +19,10 @@ class UserViewPagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdap
 
     override fun getItem(position: Int): Fragment {
        return fragmentList[position]
+    }
+
+    override fun getItemPosition(`object`: Any): Int {
+        return PagerAdapter.POSITION_NONE
     }
 
     override fun getCount(): Int {

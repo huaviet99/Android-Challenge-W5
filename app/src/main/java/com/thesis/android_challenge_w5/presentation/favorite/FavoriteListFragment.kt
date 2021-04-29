@@ -1,6 +1,7 @@
 package com.thesis.android_challenge_w5.presentation.favorite
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,7 @@ import com.thesis.android_challenge_w5.presentation.user.UserFragment
 
 class FavoriteListFragment : Fragment() {
     private lateinit var favoriteListAdapter: FavoriteListAdapter
-    private var favoriteListViewModel: FavoriteListViewModel? = null
+    private lateinit var favoriteListViewModel: FavoriteListViewModel
     private lateinit var binding: FragmentFavoriteListBinding
 
 
@@ -23,6 +24,7 @@ class FavoriteListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.d("FavoriteLs","onCreateView")
         setupViewModel(inflater, container)
         val view = binding.root
         return view
@@ -30,21 +32,17 @@ class FavoriteListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d("FavoriteLs","onViewCreated")
+
         setupRecyclerView()
         val userFragment = parentFragment as UserFragment
         val email = userFragment.getEmailFromBundle()
-        favoriteListViewModel?.accessedEmail!!.value = email
-        favoriteListViewModel?.fetchRestaurantList()
-    }
-
-    fun refresh() {
-        favoriteListViewModel?.let {
-            it.fetchRestaurantList().observe(viewLifecycleOwner, Observer {
-                activity?.runOnUiThread {
-                    favoriteListAdapter.submitList(it)
-                }
-            })
-        }
+        favoriteListViewModel.accessedEmail.value = email
+        favoriteListViewModel.fetchRestaurantList().observe(viewLifecycleOwner, Observer {
+            activity?.runOnUiThread {
+                favoriteListAdapter.submitList(it)
+            }
+        })
     }
 
     private fun setupViewModel(inflater: LayoutInflater, container: ViewGroup?) {
