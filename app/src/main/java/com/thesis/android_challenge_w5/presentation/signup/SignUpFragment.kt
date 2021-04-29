@@ -17,15 +17,8 @@ import com.thesis.android_challenge_w5.presentation.signin.SignInViewModel
 class SignUpFragment : Fragment(){
     private lateinit var binding: FragmentSignUpBinding
     private lateinit var viewModel: SignUpViewModel
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        viewModel = ViewModelProvider(this).get(SignUpViewModel::class.java)
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_sign_up,container,false)
-        binding.lifecycleOwner = this
-        binding.signUpViewModel = viewModel
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        setupViewModel(inflater,container)
         val view = binding.root
         return view
     }
@@ -53,6 +46,13 @@ class SignUpFragment : Fragment(){
                 showToastMessage(message)
             }
         })
+    }
+
+    private fun setupViewModel(inflater: LayoutInflater,container: ViewGroup?){
+        viewModel = ViewModelProvider(this).get(SignUpViewModel::class.java)
+        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_sign_up,container,false)
+        binding.lifecycleOwner = this
+        binding.signUpViewModel = viewModel
     }
 
     private fun showToastMessage(message: String) {

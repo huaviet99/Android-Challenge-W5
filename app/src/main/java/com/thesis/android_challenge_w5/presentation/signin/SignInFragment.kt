@@ -13,20 +13,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.thesis.android_challenge_w5.R
 import com.thesis.android_challenge_w5.databinding.FragmentSignInBinding
+import com.thesis.android_challenge_w5.presentation.signup.SignUpViewModel
 
 class SignInFragment : Fragment() {
     private lateinit var binding: FragmentSignInBinding
     private lateinit var viewModel: SignInViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        viewModel = ViewModelProvider(this).get(SignInViewModel::class.java)
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_in, container, false)
-        binding.lifecycleOwner = this
-        binding.signInViewModel = viewModel
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        setupViewModel(inflater,container)
         val view = binding.root
         return view
     }
@@ -59,6 +53,14 @@ class SignInFragment : Fragment() {
         super.onStop()
         viewModel.clear()
     }
+
+    private fun setupViewModel(inflater: LayoutInflater,container: ViewGroup?){
+        viewModel = ViewModelProvider(this).get(SignInViewModel::class.java)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_in, container, false)
+        binding.lifecycleOwner = this
+        binding.signInViewModel = viewModel
+    }
+
 
     private fun showToastMessage(message: String) {
         Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()

@@ -8,16 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.thesis.android_challenge_w5.R
-import com.thesis.android_challenge_w5.presentation.favorite.FavoriteFragment
-import com.thesis.android_challenge_w5.presentation.top.TopFragment
+import com.thesis.android_challenge_w5.presentation.favorite.FavoriteListFragment
 import kotlinx.android.synthetic.main.fragment_user.*
 
 class UserFragment : Fragment() {
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_user, container, false)
         return view
     }
@@ -64,7 +59,6 @@ class UserFragment : Fragment() {
             }
 
             override fun onPageSelected(position: Int) {
-                Log.d("UserFragment", "pos=$position")
                 when (position) {
                     UserViewPagerAdapter.TOP_PAGE -> {
                         bottom_nav_user.menu.findItem(R.id.item_top).isChecked = true
@@ -74,8 +68,7 @@ class UserFragment : Fragment() {
                     UserViewPagerAdapter.FAVORITE_PAGE -> {
                         bottom_nav_user.menu.findItem(R.id.item_favorite).isChecked = true
                         toolbar.title = "Favorite Restaurant"
-                        (mainViewPagerAdapter.getItem(position) as FavoriteFragment).refresh()
-
+                        (mainViewPagerAdapter.getItem(position) as FavoriteListFragment).refresh()
 
                     }
 

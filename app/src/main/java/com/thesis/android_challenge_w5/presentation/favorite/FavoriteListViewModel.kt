@@ -6,12 +6,12 @@ import androidx.lifecycle.ViewModel
 import com.thesis.android_challenge_w5.data.RestaurantDataStore
 import com.thesis.android_challenge_w5.model.Restaurant
 
-class FavoriteViewModel : ViewModel(){
-    val email = MutableLiveData<String>()
+class FavoriteListViewModel : ViewModel(){
+    val accessedEmail = MutableLiveData<String>()
     private val restaurantList = MutableLiveData<List<Restaurant>>()
 
     fun fetchRestaurantList(): LiveData<List<Restaurant>>{
-        val data =  RestaurantDataStore.getFavoriteRestaurantList(email.value!!).toMutableList()
+        val data =  RestaurantDataStore.getFavoriteRestaurantList(accessedEmail.value!!).toMutableList()
         restaurantList.postValue(data)
         return restaurantList
 

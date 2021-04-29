@@ -29,9 +29,15 @@ object RestaurantDataStore {
         Restaurant("Cánh Đồng Quán - Lẩu Nướng Tại Bàn - Dương Quảng Hàm","310/14 Dương Quảng Hàm, P. 5","https://images.foody.vn/res/g4/30102/prof/s180x180/foody-mobile-shwadjuj-jpg-413-636204369735412311.jpg")
     )
 
-    private lateinit var addFavoriteRestaurantCallback: AddFavoriteRestaurantCallback
-    private lateinit var removeFavoriteRestaurantCallback: RemoveFavoriteRestaurantCallback
+    private lateinit var favoriteRestaurantListListener: FavoriteRestaurantListListener
 
+    fun toggleFavoriteRestaurantByEmail(email: String,restaurant: Restaurant){
+        if (restaurant.isFavorite) {
+            removeFavoriteRestaurantByEmail(email,restaurant)
+        } else {
+            addFavoriteRestaurantByEmail(email,restaurant)
+        }
+    }
 
     fun addFavoriteRestaurantByEmail(email:String, restaurant: Restaurant){
         val restaurantList = favoriteRestaurantMap[email] ?: mutableListOf()
@@ -40,7 +46,7 @@ object RestaurantDataStore {
             restaurant.isFavorite = true
             restaurantList.add(restaurant.copy())
             favoriteRestaurantMap[email] = restaurantList
-            addFavoriteRestaurantCallback.onSucceed(getAllRestaurantListWithFavoriteChecked(email).map { it.copy() })
+            favoriteRestaurantListListener.onDataChanged(getAllRestaurantListWithFavoriteChecked(email).map { it.copy() })
             return
         }
     }
@@ -51,7 +57,7 @@ object RestaurantDataStore {
         if( restaurantList!!.filter { it.name == restaurant.name }.size ==1){
             restaurantList.removeAll { it.name == restaurant.name }
             favoriteRestaurantMap[email] = restaurantList
-            removeFavoriteRestaurantCallback.onSucceed(getAllRestaurantListWithFavoriteChecked(email).map { it.copy() })
+            favoriteRestaurantListListener.onDataChanged(getAllRestaurantListWithFavoriteChecked(email).map { it.copy() })
             return
         }
 
@@ -75,21 +81,13 @@ object RestaurantDataStore {
         return cloneList
     }
 
-    fun setAddFavoriteRestaurantCallback(addFavoriteRestaurantCallback: AddFavoriteRestaurantCallback) {
-        this.addFavoriteRestaurantCallback = addFavoriteRestaurantCallback
-    }
 
-    fun setRemoveFavoriteRestaurantCallback(removeFavoriteRestaurantCallback: RemoveFavoriteRestaurantCallback) {
-        this.removeFavoriteRestaurantCallback = removeFavoriteRestaurantCallback
+    fun setFavoriteRestaurantListListener(favoriteRestaurantListListener: FavoriteRestaurantListListener) {
+        this.favoriteRestaurantListListener = favoriteRestaurantListListener
     }
 
 
-    interface AddFavoriteRestaurantCallback {
-        fun onSucceed(restaurantList:List<Restaurant>)
+    interface FavoriteRestaurantListListener {
+        fun onDataChanged(restaurantList: List<Restaurant>)
     }
-
-    interface RemoveFavoriteRestaurantCallback {
-        fun onSucceed(restaurantList:List<Restaurant>)
-    }
-
 }

@@ -1,4 +1,4 @@
-package com.thesis.android_challenge_w5.presentation.top
+package com.thesis.android_challenge_w5.presentation.favorite
 
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
@@ -18,87 +18,70 @@ import com.bumptech.glide.request.target.Target
 import com.thesis.android_challenge_w5.R
 import com.thesis.android_challenge_w5.model.Restaurant
 
-class TopAdapter : ListAdapter<Restaurant, TopAdapter.ViewHolder>(RestaurantDiffUtilCallback()) {
+class FavoriteListAdapter : ListAdapter<Restaurant, FavoriteListAdapter.ViewHolder>(RestaurantDiffUtilCallback()) {
     companion object {
         const val LINEAR_ITEM = 0
         const val GRID_ITEM = 1
     }
 
     private var isLinearSwitched = true
-    var listener: RestaurantAdapterListener? = null
+    var listener : RestaurantAdapterListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val view: View?
-        view = if (viewType == LINEAR_ITEM) {
+        val view : View?
+        view = if(viewType == LINEAR_ITEM) {
             inflater.inflate(R.layout.item_linear_restaurant, parent, false)
-        } else {
+        } else  {
             inflater.inflate(R.layout.item_grid_restaurant, parent, false)
         }
         return ViewHolder(view!!)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = getItem(position)
-        holder.bind(item, listener)
+       val item = getItem(position)
+        holder.bind(item,listener)
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (isLinearSwitched) {
+        return if(isLinearSwitched){
             LINEAR_ITEM
         } else {
             GRID_ITEM
         }
     }
 
-    override fun submitList(list: List<Restaurant>?) {
-        super.submitList(list)
-        notifyDataSetChanged()
+    fun toggleItemViewType(): Boolean{
+        isLinearSwitched = !isLinearSwitched
+        return isLinearSwitched
     }
 
-
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val tvRestaurantName: TextView = itemView.findViewById(R.id.tv_restaurant_name)
-        private val tvRestaurantAddress: TextView =
-            itemView.findViewById(R.id.tv_restaurant_address)
+        private val tvRestaurantAddress: TextView = itemView.findViewById(R.id.tv_restaurant_address)
         private val imgRestaurant: ImageView = itemView.findViewById(R.id.img_restaurant)
-        private val imgFavoriteCheck: ImageView = itemView.findViewById(R.id.img_favorite_check)
-        private val progressBar: ProgressBar = itemView.findViewById(R.id.progress_bar)
+         private val imgFavoriteCheck: ImageView = itemView.findViewById(R.id.img_favorite_check)
+         private val progressBar: ProgressBar = itemView.findViewById(R.id.progress_bar)
         fun bind(restaurant: Restaurant, listener: RestaurantAdapterListener?) {
+            imgFavoriteCheck.visibility = View.GONE
             tvRestaurantName.text = restaurant.name
             tvRestaurantAddress.text = restaurant.address
             Glide.with(itemView.context)
                 .load(restaurant.picturePath)
-                .listener(object : RequestListener<Drawable> {
-                    override fun onLoadFailed(
-                        e: GlideException?,
-                        model: Any?,
-                        target: Target<Drawable>?,
-                        isFirstResource: Boolean
-                    ): Boolean {
+                .listener(object :RequestListener<Drawable>{
+                    override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
                         progressBar.visibility = View.GONE
                         return false
                     }
 
-                    override fun onResourceReady(
-                        resource: Drawable?,
-                        model: Any?,
-                        target: Target<Drawable>?,
-                        dataSource: DataSource?,
-                        isFirstResource: Boolean
-                    ): Boolean {
+                    override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
                         progressBar.visibility = View.GONE
                         return false
                     }
                 })
                 .into(imgRestaurant)
 
-            if (restaurant.isFavorite) {
-                imgFavoriteCheck.setImageResource(R.drawable.ic_favorite_check)
-            } else {
-                imgFavoriteCheck.setImageResource(R.drawable.ic_favorite_uncheck)
 
-            }
             imgFavoriteCheck.setOnClickListener {
                 listener?.onItemClicked(restaurant)
             }
