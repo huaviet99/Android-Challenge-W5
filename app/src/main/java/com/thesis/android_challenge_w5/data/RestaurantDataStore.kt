@@ -33,7 +33,7 @@ object RestaurantDataStore {
     private lateinit var removeFavoriteRestaurantCallback: RemoveFavoriteRestaurantCallback
 
 
-    fun addRestaurantListByEmail(email:String,restaurant: Restaurant){
+    fun addFavoriteRestaurantByEmail(email:String, restaurant: Restaurant){
         val restaurantList = favoriteRestaurantMap[email] ?: mutableListOf()
 
         if( restaurantList.filter { it.name == restaurant.name }.size !=1){
@@ -45,7 +45,7 @@ object RestaurantDataStore {
         }
     }
 
-    fun removeRestaurantListByEmail(email: String,restaurant: Restaurant){
+    fun removeFavoriteRestaurantByEmail(email: String, restaurant: Restaurant){
         val restaurantList = favoriteRestaurantMap[email]
 
         if( restaurantList!!.filter { it.name == restaurant.name }.size ==1){

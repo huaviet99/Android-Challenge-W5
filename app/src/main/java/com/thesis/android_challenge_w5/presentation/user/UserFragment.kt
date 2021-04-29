@@ -26,6 +26,11 @@ class UserFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupBottomNavigationView()
         setupViewPager()
+
+    }
+
+    fun getEmailFromBundle(): String? {
+        return arguments?.getString("email")
     }
 
     private fun setupBottomNavigationView() {
@@ -51,17 +56,22 @@ class UserFragment : Fragment() {
         user_view_pager.adapter = mainViewPagerAdapter
         user_view_pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {}
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+            }
 
             override fun onPageSelected(position: Int) {
+                Log.d("UserFragment", "pos=$position")
                 when (position) {
-                    UserViewPagerAdapter.TOP_PAGE ->{
+                    UserViewPagerAdapter.TOP_PAGE -> {
                         bottom_nav_user.menu.findItem(R.id.item_top).isChecked = true
                         toolbar.title = "Top Restaurant"
-                        (mainViewPagerAdapter.getItem(position) as TopFragment).refresh()
 
                     }
-                    UserViewPagerAdapter.FAVORITE_PAGE ->  {
+                    UserViewPagerAdapter.FAVORITE_PAGE -> {
                         bottom_nav_user.menu.findItem(R.id.item_favorite).isChecked = true
                         toolbar.title = "Favorite Restaurant"
                         (mainViewPagerAdapter.getItem(position) as FavoriteFragment).refresh()

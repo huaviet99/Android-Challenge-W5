@@ -11,10 +11,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.thesis.android_challenge_w5.R
 import com.thesis.android_challenge_w5.databinding.FragmentFavoriteBinding
+import com.thesis.android_challenge_w5.presentation.user.UserFragment
 
 class FavoriteFragment : Fragment() {
     private lateinit var favoriteAdapter: FavoriteAdapter
-    private lateinit var viewModel: FavoriteViewModel
+    private  var viewModel: FavoriteViewModel? = null
     private lateinit var binding: FragmentFavoriteBinding
 
 
@@ -33,17 +34,21 @@ class FavoriteFragment : Fragment() {
 
 
     fun refresh() {
-        viewModel.fetchRestaurantList().observe(viewLifecycleOwner, Observer {
-            activity?.runOnUiThread {
-                favoriteAdapter.submitList(it.toMutableList())
-            }
-        })
+        viewModel?.let {
+            it.fetchRestaurantList().observe(viewLifecycleOwner, Observer {
+                activity?.runOnUiThread {
+                    favoriteAdapter.submitList(it)
+                }
+            })
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
-
+        val userFragment = parentFragment as UserFragment
+        val email = userFragment.getEmailFromBundle()
+        viewModel?.email!!.value = email
     }
 
     private fun setupRecyclerView() {

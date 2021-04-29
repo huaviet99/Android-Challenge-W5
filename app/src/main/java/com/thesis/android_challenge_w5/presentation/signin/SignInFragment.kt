@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -41,7 +42,8 @@ class SignInFragment : Fragment() {
         viewModel.isSignInSucceed.observe(viewLifecycleOwner, Observer { user ->
             user?.let {
                 showToastMessage("Sign in Successful")
-                findNavController().navigate(R.id.action_signInFragment_to_userFragment)
+                val bundle = bundleOf("email" to user.email)
+                findNavController().navigate(R.id.action_signInFragment_to_userFragment,bundle)
             }
 
         })
